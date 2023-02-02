@@ -2,10 +2,12 @@ import com.aventstack.extentreports.Status;
 import commonLibs.implementation.CommonDriver;
 import commonLibs.utils.ConfigReader;
 import commonLibs.utils.ReportUtility;
+import commonLibs.utils.ScreenshotUtility;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,6 +18,8 @@ public class BaseTest {
     ConfigReader configReader;
     ReportUtility reportUtility;
     String reportFilename;
+    ScreenshotUtility screenshotUtility;
+    String screenshotFilename;
 
     @BeforeSuite
     public void preSetup(){
@@ -38,6 +42,11 @@ public class BaseTest {
         String executionTime = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         if(result.getStatus() == ITestResult.FAILURE){
             reportUtility.addTestLog(Status.FAIL, "One or more test steps failed");
+            screenshotUtility = new ScreenshotUtility(driver);
+            screenshotFilename = "sc_" + testcaseName;
+            screenshotUtility.takeScreenshot(screenshotFilename);
+            String screenshotPath = screenshotUtility.getScreenshotPath();
+            reportUtility.attachScreenshotToReport(screenshotPath);
         }
         else if(result.getStatus() == ITestResult.SUCCESS){
             reportUtility.addTestLog(Status.PASS, "Test Case passed: "+testcaseName);
