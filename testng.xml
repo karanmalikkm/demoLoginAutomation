@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Automation Test Suite">
+    <test verbose="2" preserve-order="true" name="Demo Automation: LoginTest">
+        <classes>
+            <class name="LoginTests">
+                <parameter name="username" value="${LOGIN_USERNAME}"></parameter>
+                <parameter name="password" value="${LOGIN_PASSWORD}"></parameter>
+            </class>
+        </classes>
+    </test>
+</suite>
